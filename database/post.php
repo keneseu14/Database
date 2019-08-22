@@ -3,11 +3,13 @@
 require 'config/config.php';
 require 'config/dbconnection.php';
 
+    #get ID
+    $id = mysqli_real_escape_string ($conn, $_GET['id']);
     #create a query
-    $query = 'SELECT * FROM users';
+    $query = 'SELECT * FROM users where id='.$id;
     #get query
     $result = mysqli_query($conn, $query);
-    $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $user = mysqli_fetch_assoc($result);
     #free result
     mysqli_free_result($result);
     #connection close
@@ -24,15 +26,14 @@ require 'config/dbconnection.php';
 </head>
 <body>
     <div class="jumbotron">
-        <h1 style="font-family:'Impact', san-serif; text-align:center;" >USERS</h1>.
-        <?php foreach ($users as $user): ?>
+        <h1 style="font-family:'Impact', san-serif; text-align:center;" ">USERS</h1>.
             <div class="container" style="background-color:#F5F5DC; text-align:center;">
                 <h3><?php echo $user['username']; ?></h3>
+                <h4>User's Details <?php echo $user['firstname']; ?> <?php echo $user['lastname']; ?></h4>
                 <small> Created on <?php echo $user['created_at']; ?></small><br>
-                <a class="btn btn-primary" href="post.php?id=<?php echo $user['id'];?>">Read More</a>
+                <a class="btn btn-success" href="index.php">Back</a>
                 <hr class="my-4">
             </div>
-        <?php endforeach; ?>
     </div>
 </body>
 </html>
